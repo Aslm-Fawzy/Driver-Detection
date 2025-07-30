@@ -38,7 +38,7 @@ def initialize_models():
 
         if model is None:
             try : 
-                model = joblib.load('ML Model\model.pkl') 
+                model = joblib.load('ML Model/model.pkl')
 
             except FileNotFoundError:
                 raise Exception("Model file not found. Please check the file path.")
