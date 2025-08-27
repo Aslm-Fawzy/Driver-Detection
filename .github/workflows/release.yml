@@ -20,4 +20,3 @@ jobs:
           body_path: CHANGELOG.md   # 👈 use the entire changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-A
