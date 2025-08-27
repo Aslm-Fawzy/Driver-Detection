@@ -14,13 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extract Release Notes
-        run: |
-          awk '/## \[v/{flag=0} /## \[v3.1.0\]/{flag=1} flag' CHANGELOG.md > RELEASE_NOTES.md
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          body_path: RELEASE_NOTES.md
+          body_path: CHANGELOG.md   # 👈 use the entire changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+A
