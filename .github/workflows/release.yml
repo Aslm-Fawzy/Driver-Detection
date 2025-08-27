@@ -14,9 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Extract version from tag
+        id: vars
+        run: echo "version=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Extract Release Notes
+        run: |
+          awk -v ver="## [${{ steps.vars.outputs.version }}]" '
+            $0 ~ ver {flag=1; next}
+            /^## \[/ && flag {flag=0}
+            flag
+          ' CHANGELOG.md > RELEASE_NOTES.md
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          body_path: CHANGELOG.md   # 👈 use the entire changelog
+          body_path: RELEASE_NOTES.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
