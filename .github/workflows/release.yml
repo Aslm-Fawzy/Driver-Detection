@@ -3,7 +3,10 @@ name: Release
 on:
   push:
     tags:
-      - 'v*.*.*'   # Runs only when you push a tag like v1.2.0
+      - 'v*.*.*'
+
+permissions:
+  contents: write   # 👈 allow creating releases
 
 jobs:
   release:
@@ -11,16 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate Release Notes
-        id: notes
-        run: |
-          echo "## 🚀 Features" > RELEASE_NOTES.md
-          echo "- Auto-generated from CHANGELOG" >> RELEASE_NOTES.md
-          cat CHANGELOG.md >> RELEASE_NOTES.md
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          body_path: RELEASE_NOTES.md
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
